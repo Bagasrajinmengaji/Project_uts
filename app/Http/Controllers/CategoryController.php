@@ -12,15 +12,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $categories = Category::withCount(['posts' => function ($query) {
+            $query->where('status', 'published');
+        }])->orderBy('name')->get();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return response()->json([
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -28,22 +26,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
+        return response()->json([
+            'category' => $category,
+        ]);
     }
 }
