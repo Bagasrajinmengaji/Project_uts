@@ -1,10 +1,8 @@
-import inertia from '@inertiajs/vite';
-import { wayfinder } from '@laravel/vite-plugin-wayfinder';
-import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import { defineConfig, lazyPlugins } from 'vite-plus';
+import vuetify from 'vite-plugin-vuetify';
 
 export default defineConfig({
     plugins: lazyPlugins(() => [
@@ -17,8 +15,6 @@ export default defineConfig({
                 }),
             ],
         }),
-        inertia(),
-        tailwindcss(),
         vue({
             template: {
                 transformAssetUrls: {
@@ -27,9 +23,7 @@ export default defineConfig({
                 },
             },
         }),
-        wayfinder({
-            formVariants: true,
-        }),
+        vuetify({ autoImport: true }),
     ]),
     server: {
         watch: {

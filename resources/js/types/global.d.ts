@@ -1,4 +1,3 @@
-import type { Directive } from 'vue';
 import type { Auth } from '@/types/auth';
 
 // Extend ImportMeta interface for Vite...
@@ -20,19 +19,20 @@ declare module '@inertiajs/core' {
             name: string;
             auth: Auth;
             sidebarOpen: boolean;
-            [key: string]: unknown;
+            [key: string]: any;
         };
     }
 }
 
 declare module 'vue' {
-    interface GlobalDirectives {
-        vFocus: Directive<HTMLElement, boolean | undefined>;
-    }
-
     interface ComponentCustomProperties {
-        $inertia: typeof Router;
-        $page: Page;
-        $headManager: ReturnType<typeof createHeadManager>;
+        $page: {
+            props: {
+                auth: Auth;
+                [key: string]: any;
+            };
+        };
     }
 }
+
+export {};

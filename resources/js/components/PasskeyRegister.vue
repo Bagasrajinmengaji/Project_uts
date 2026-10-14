@@ -71,16 +71,16 @@ const handleCancel = () => {
     <form
         v-else
         @submit="handleSubmit"
-        class="space-y-4 rounded-lg border border-border bg-muted/50 p-4"
+        class="space-y-4 rounded-lg border-border bg-muted/50 p-4 border"
     >
-        <div class="grid gap-2">
+        <div class="gap-2 grid">
             <Label for="passkey-name">Passkey name</Label>
             <Input
                 id="passkey-name"
                 type="text"
                 v-model="name"
                 placeholder="e.g., MacBook Pro, iPhone"
-                class="mt-1 block w-full border-foreground/20"
+                class="mt-1 border-foreground/20 block w-full"
                 v-focus
             />
             <p class="text-xs text-muted-foreground">
@@ -90,7 +90,7 @@ const handleCancel = () => {
 
         <InputError v-if="error" :message="error" />
 
-        <div class="flex gap-2">
+        <div class="gap-2 flex">
             <Button type="submit" :disabled="isLoading || !name.trim()">
                 {{ isLoading ? 'Registering...' : 'Register passkey' }}
             </Button>
