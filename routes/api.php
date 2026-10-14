@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,10 @@ Route::middleware('throttle:6,1')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('api.register');
     Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 });
+
+// Google OAuth
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('api.auth.google.redirect');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('api.auth.google.callback');
 
 // Categories & Public Posts Exploration
 Route::get('/categories', [CategoryController::class, 'index'])->name('api.categories.index');

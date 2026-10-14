@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
+const route = useRoute();
 const authStore = useAuthStore();
 
 const email = ref('');
@@ -11,6 +12,7 @@ const password = ref('');
 const showPassword = ref(false);
 const errorMessage = ref('');
 const loading = ref(false);
+const googleLoading = ref(false);
 
 const handleLogin = async () => {
     if (!email.value || !password.value) {
@@ -40,6 +42,33 @@ const handleLogin = async () => {
         loading.value = false;
     }
 };
+
+const handleGoogleLogin = () => {
+    googleLoading.value = true;
+    // Redirect to Google OAuth endpoint
+    window.location.href = '/api/auth/google/redirect';
+};
+
+onMounted(async () => {
+    const token = route.query.token as string | undefined;
+    const errorParam = route.query.error as string | undefined;
+
+    if (token) {
+        loading.value = true;
+        try {
+            localStorage.setItem('access_token', token);
+            authStore.token = token;
+            await authStore.fetchUser();
+            router.push('/my-posts');
+        } catch {
+            errorMessage.value = 'Gagal memverifikasi akun Google.';
+        } finally {
+            loading.value = false;
+        }
+    } else if (errorParam) {
+        errorMessage.value = decodeURIComponent(errorParam);
+    }
+});
 </script>
 
 <template>
@@ -81,6 +110,29 @@ const handleLogin = async () => {
             >
                 {{ errorMessage }}
             </v-alert>
+
+            <!-- Google Login Button -->
+            <v-btn
+                block
+                size="large"
+                variant="outlined"
+                color="secondary"
+                :loading="googleLoading"
+                class="mb-4 text-capitalize font-weight-bold rounded-lg border-opacity-50"
+                @click="handleGoogleLogin"
+            >
+                <v-icon icon="mdi-google" color="error" class="me-2"></v-icon>
+                Masuk dengan Google
+            </v-btn>
+
+            <!-- Divider -->
+            <div class="d-flex align-center my-4">
+                <v-divider></v-divider>
+                <span class="text-caption text-secondary px-3 text-uppercase"
+                    >atau dengan email</span
+                >
+                <v-divider></v-divider>
+            </div>
 
             <!-- Form -->
             <v-form @submit.prevent="handleLogin">

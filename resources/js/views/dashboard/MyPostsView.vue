@@ -196,7 +196,7 @@ onMounted(() => {
                                 <v-avatar
                                     rounded="lg"
                                     size="52"
-                                    class="me-3 bg-grey-lighten-2 elevation-1 flex-shrink-0"
+                                    class="me-3 bg-grey-lighten-2 elevation-1 shrink-0"
                                 >
                                     <v-img
                                         :src="

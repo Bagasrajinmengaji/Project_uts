@@ -194,3 +194,12 @@ test('owner can update and delete their own post, but unauthorized user receives
 
     expect(Post::find($post->id))->toBeNull();
 });
+
+test('google oauth redirect endpoint returns google authorization url', function () {
+    $response = $this->getJson('/api/auth/google/redirect');
+
+    $response->assertOk()
+        ->assertJsonStructure(['url']);
+
+    expect($response->json('url'))->toContain('accounts.google.com');
+});

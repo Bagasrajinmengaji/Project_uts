@@ -294,7 +294,7 @@ onMounted(async () => {
                             </v-card-item>
 
                             <v-card-text
-                                class="text-body-2 text-secondary pb-2 line-clamp-3 flex-grow-1"
+                                class="text-body-2 text-secondary pb-2 line-clamp-3 grow"
                             >
                                 {{ post.content }}
                             </v-card-text>

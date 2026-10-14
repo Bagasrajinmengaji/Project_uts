@@ -14,6 +14,12 @@ const showPassword = ref(false);
 const errorMessage = ref('');
 const fieldErrors = ref<Record<string, string[]>>({});
 const loading = ref(false);
+const googleLoading = ref(false);
+
+const handleGoogleRegister = () => {
+    googleLoading.value = true;
+    window.location.href = '/api/auth/google/redirect';
+};
 
 const handleRegister = async () => {
     if (
@@ -98,6 +104,29 @@ const handleRegister = async () => {
             >
                 {{ errorMessage }}
             </v-alert>
+
+            <!-- Google Register Button -->
+            <v-btn
+                block
+                size="large"
+                variant="outlined"
+                color="secondary"
+                :loading="googleLoading"
+                class="mb-4 text-capitalize font-weight-bold rounded-lg border-opacity-50"
+                @click="handleGoogleRegister"
+            >
+                <v-icon icon="mdi-google" color="error" class="me-2"></v-icon>
+                Daftar dengan Google
+            </v-btn>
+
+            <!-- Divider -->
+            <div class="d-flex align-center my-4">
+                <v-divider></v-divider>
+                <span class="text-caption text-secondary px-3 text-uppercase"
+                    >atau dengan email</span
+                >
+                <v-divider></v-divider>
+            </div>
 
             <!-- Form -->
             <v-form @submit.prevent="handleRegister">
